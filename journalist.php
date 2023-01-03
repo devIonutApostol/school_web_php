@@ -1,4 +1,4 @@
-<?php include("top.php") ?>
+<?php include("top-guard.php") ?>
 
 <?php
 if (!isset($_SESSION['type']) || $_SESSION["type"] != 1) {
@@ -21,31 +21,18 @@ if (!isset($_SESSION['type']) || $_SESSION["type"] != 1) {
         <tbody>
 
             <?php
-            include('database.php');
-            $database = new Database;
-            $result = $database->query(
-                "select title,category,created,editorid from articles where authorid = ?",
-                array(
-                    array(
-                        "param_type" => "s",
-                        "param_value" => $_SESSION['id']
-                    )
-                )
-            );
+            include('articles-repo.php');
+            $repo = new ArticlesRepo;
+            $result = $repo->getAurthorArticles($_SESSION['id']);
 
             foreach ($result as &$row)
             {
-                $status = 'pending approval';
-                if(isset($row['editorid']))
-                {
-                    $status = 'approved';
-                }
 
                 echo '<tr>';
-                echo '<td>'.$row['title']."</td>";
-                echo '<td>'.$row['category']."</td>";
-                echo '<td>'.date('d-m-Y',strtotime($row['created']))."</td>";
-                echo '<td>'.$status."</td>";
+                echo '<td>'.$row->title."</td>";
+                echo '<td>'.$row->category."</td>";
+                echo '<td>'.$row->created."</td>";
+                echo '<td>'.$row->status."</td>";
                 echo '</tr>';
             }
             ?>

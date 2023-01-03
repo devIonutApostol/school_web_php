@@ -16,7 +16,6 @@
 <body>
     <?php
     session_start();
-    include("login-guard.php");
     ?>
 
 <div class="h-100 d-flex  justify-content-center">
