@@ -19,4 +19,4 @@
     include("login-guard.php");
     ?>
 
-<div class="h-100 d-flex align-items-center justify-content-center">
+<div class="h-100 d-flex  justify-content-center">

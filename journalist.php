@@ -44,7 +44,7 @@ if (!isset($_SESSION['type']) || $_SESSION["type"] != 1) {
                 echo '<tr>';
                 echo '<td>'.$row['title']."</td>";
                 echo '<td>'.$row['category']."</td>";
-                echo '<td>'.$row['created']."</td>";
+                echo '<td>'.date('d-m-Y',strtotime($row['created']))."</td>";
                 echo '<td>'.$status."</td>";
                 echo '</tr>';
             }
