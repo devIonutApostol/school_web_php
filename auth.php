@@ -24,6 +24,7 @@ else
     $_SESSION['loggedin'] = true;
     $_SESSION['name'] = $_POST['username'];
     $_SESSION['id'] = $result[0]["id"];
+    $_SESSION['type'] = $result[0]['type'];
 
     header("Location: index.php");
 }

@@ -14,16 +14,27 @@ $result = $database->query(
     )
 );
 
+$type = 0;
+
+if(isset($_POST['type']))
+{
+    $type = $_POST['type'];
+}
+
 if (is_null($result)) {
-    $database->insert("insert into users (username,password,type) values (?,?,0)", array(
+    $database->insert("insert into users (username,password,type) values (?,?,?)", array(
         array(
             "param_type" => "s",
             "param_value" => $_POST['username']
         ),
         array(
             "param_type" => "s",
-            "param_value" => password_hash($_POST['username'], PASSWORD_DEFAULT)
-        )
+            "param_value" => password_hash($_POST['password'], PASSWORD_DEFAULT)
+        ),
+        array(
+            "param_type" => "i",
+            "param_value" => $type
+        ),
     )
     );
 

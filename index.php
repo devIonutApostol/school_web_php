@@ -3,13 +3,14 @@
 
 <?php
 
-if(!isset($_SESSION['loggedin']) || $_SESSION["loggedin"] != true){
-    header("Location: login.php");
-}
-else
+
+switch($_SESSION['type'])
 {
-    echo 'welcome';
+    case 1:
+        header("Location: journalist.php");
+        break;
 }
+
 ?>
 
 
