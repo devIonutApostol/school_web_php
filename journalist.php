@@ -6,6 +6,7 @@ if (!isset($_SESSION['type']) || $_SESSION["type"] != 1) {
     header("Location: index.php");
     exit;
 }
+include('articles-repo.php');
 ?>
 <div style=" width: 500px; margin-top: 50px; margin-right: 100px;">
     <h3>Articles status</h3>
@@ -21,7 +22,6 @@ if (!isset($_SESSION['type']) || $_SESSION["type"] != 1) {
         <tbody>
 
             <?php
-            include('articles-repo.php');
             $repo = new ArticlesRepo;
             $result = $repo->getAurthorArticles($_SESSION['id']);
 
@@ -43,8 +43,22 @@ if (!isset($_SESSION['type']) || $_SESSION["type"] != 1) {
 </div>
 
 <div style="width: 500px; margin-top: 50px;">
+
+<?php 
+if(array_key_exists('createArticle', $_POST)) {
+    createArticle();
+}
+function createArticle()
+{
+    $repo = new ArticlesRepo;
+    $repo->createArticle($_POST['title'], $_POST['category'], $_POST['content'], $_SESSION['id']);
+    $_SESSION["info"] = 'Article created';
+    header("Location: journalist.php");
+}
+
+?>
     <h3>Create Article</h3>
-    <form action="create-article.php" method="post">
+    <form action="journalist.php" method="post">
         <div class="form-outline mb-4">
             <label class="form-label" for="title">Title</label>
             <input type="text" name="title" id="title" class="form-control" required minlength="5" />
@@ -59,7 +73,7 @@ if (!isset($_SESSION['type']) || $_SESSION["type"] != 1) {
                 minlength="20"> </textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-block mb-4">Create</button>
+        <input type="submit" name="createArticle" class="btn btn-primary btn-block mb-4" value="Create"/>
         <?php include("info-error.php") ?>
     </form>
     <div>

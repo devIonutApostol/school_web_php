@@ -10,7 +10,6 @@ if(array_key_exists('logout', $_POST)) {
 
 function logout()
 {
-    echo 'wtf';
     session_destroy();
     header("Location: login.php");
 }
