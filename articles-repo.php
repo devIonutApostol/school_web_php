@@ -42,14 +42,31 @@ class ArticlesRepo
         return $this->mapResult($result);
     }
 
-    public function getApprovedArticles()
+    public function getApprovedArticlesByCategory($category)
     {
         $result = $this->database->query(
-            sprintf("select %s where editorid is not null", $this->base_columns)
+            sprintf("select %s where editorid is not null and category = ?", $this->base_columns),
+            array(
+                array(
+                    "param_type" => "s",
+                    "param_value" => $category
+                )
+            )
         );
 
 
         return $this->mapResult($result);
+    }
+
+    public function getCategories()
+    {
+        $result = $this->database->query(
+             "select distinct category from articles where editorid is not null"
+        );
+
+        if (is_null($result))
+            return array();
+        return array_map('mapCategory', $result);
     }
 
     public function getUnppprovedArticles()
@@ -138,6 +155,11 @@ function mapArticle($row)
 
 
     return $result;
+}
+
+function mapCategory($row)
+{
+    return $row['category'];
 }
 
 ?>
