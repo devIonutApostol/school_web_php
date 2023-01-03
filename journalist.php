@@ -25,14 +25,13 @@ include('articles-repo.php');
             $repo = new ArticlesRepo;
             $result = $repo->getAurthorArticles($_SESSION['id']);
 
-            foreach ($result as &$row)
-            {
+            foreach ($result as &$row) {
 
                 echo '<tr>';
-                echo '<td>'.$row->title."</td>";
-                echo '<td>'.$row->category."</td>";
-                echo '<td>'.$row->created."</td>";
-                echo '<td>'.$row->status."</td>";
+                echo '<td>' . $row->title . "</td>";
+                echo '<td>' . $row->category . "</td>";
+                echo '<td>' . $row->created . "</td>";
+                echo '<td>' . $row->status . "</td>";
                 echo '</tr>';
             }
             ?>
@@ -44,19 +43,19 @@ include('articles-repo.php');
 
 <div style="width: 500px; margin-top: 50px;">
 
-<?php 
-if(array_key_exists('createArticle', $_POST)) {
-    createArticle();
-}
-function createArticle()
-{
-    $repo = new ArticlesRepo;
-    $repo->createArticle($_POST['title'], $_POST['category'], $_POST['content'], $_SESSION['id']);
-    $_SESSION["info"] = 'Article created';
-    header("Location: journalist.php");
-}
+    <?php
+    if (array_key_exists('createArticle', $_POST)) {
+        createArticle();
+    }
+    function createArticle()
+    {
+        $repo = new ArticlesRepo;
+        $repo->createArticle($_POST['title'], $_POST['category'], $_POST['content'], $_SESSION['id']);
+        $_SESSION["info"] = 'Article created';
+        header("Location: journalist.php");
+    }
 
-?>
+    ?>
     <h3>Create Article</h3>
     <form action="journalist.php" method="post">
         <div class="form-outline mb-4">
@@ -73,7 +72,7 @@ function createArticle()
                 minlength="20"> </textarea>
         </div>
 
-        <input type="submit" name="createArticle" class="btn btn-primary btn-block mb-4" value="Create"/>
+        <input type="submit" name="createArticle" class="btn btn-primary btn-block mb-4" value="Create" />
         <?php include("info-error.php") ?>
     </form>
     <div>

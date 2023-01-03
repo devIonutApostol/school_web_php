@@ -4,6 +4,7 @@ include('database.php');
 
 class Article
 {
+    public $id;
     public $title;
     public $category;
     public $content;
@@ -24,7 +25,7 @@ class ArticlesRepo
     public function getAurthorArticles($authorid)
     {
         $result = $this->database->query(
-            "select title,category,created,content,editorid from articles where authorid = ?",
+            "select id,title,category,created,content,editorid from articles where authorid = ?",
             array(
                 array(
                     "param_type" => "s",
@@ -39,17 +40,17 @@ class ArticlesRepo
     public function getApprovedArticles()
     {
         $result = $this->database->query(
-            "select title,category,created,content,editorid from articles where editorid is not null"
+            "select id,title,category,created,content,editorid from articles where editorid is not null"
         );
 
 
         return $this->mapResult($result);
     }
 
-    public function getUnApprovedArticles()
+    public function getUnppprovedArticles()
     {
         $result = $this->database->query(
-            "select title,category,created,content,editorid from articles where editorid is null"
+            "select id,title,category,created,content,editorid from articles where editorid is null"
         );
 
         return $this->mapResult($result);
@@ -92,6 +93,23 @@ class ArticlesRepo
             )
         );
     }
+
+    public function approveArticle($id,$editorid)
+    {
+        $this->database->query(
+            "update articles set editorid = ? where id = ?",
+            array(
+                array(
+                    "param_type" => "s",
+                    "param_value" => $editorid
+                ),
+                array(
+                    "param_type" => "s",
+                    "param_value" => $id
+                )
+            )
+        );
+    }
 }
 
 
@@ -100,6 +118,7 @@ function mapArticle($row)
 {
     $result = new Article;
 
+    $result->id = $row['id'];
     $result->title = $row['title'];
     $result->category = $row['category'];
     $result->created = date('d-m-Y', strtotime($row['created']));
