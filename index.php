@@ -6,6 +6,8 @@
 
 switch($_SESSION['type'])
 {
+    case 0:
+        header("Location: reader.php");
     case 1:
         header("Location: journalist.php");
         break;

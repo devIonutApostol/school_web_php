@@ -16,16 +16,19 @@ class ArticlesRepo
 {
     private $database;
 
+    private $base_columns;
+
     function __construct()
     {
         $this->database = new Database;
+        $this->base_columns = "a.id as id, a.title as title, a.category as category, a.created as created, a.content as content, a.editorid as editorid from articles a";
     }
 
 
     public function getAurthorArticles($authorid)
     {
         $result = $this->database->query(
-            "select id,title,category,created,content,editorid from articles where authorid = ?",
+            sprintf("select %s where authorid = ?", $this->base_columns),
             array(
                 array(
                     "param_type" => "s",
@@ -40,7 +43,7 @@ class ArticlesRepo
     public function getApprovedArticles()
     {
         $result = $this->database->query(
-            "select id,title,category,created,content,editorid from articles where editorid is not null"
+            sprintf("select %s where editorid is not null", $this->base_columns)
         );
 
 
@@ -50,7 +53,7 @@ class ArticlesRepo
     public function getUnppprovedArticles()
     {
         $result = $this->database->query(
-            "select id,title,category,created,content,editorid from articles where editorid is null"
+            sprintf("select %s where editorid is null", $this->base_columns)
         );
 
         return $this->mapResult($result);
@@ -94,7 +97,7 @@ class ArticlesRepo
         );
     }
 
-    public function approveArticle($id,$editorid)
+    public function approveArticle($id, $editorid)
     {
         $this->database->query(
             "update articles set editorid = ? where id = ?",

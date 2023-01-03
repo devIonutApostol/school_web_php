@@ -10,7 +10,7 @@ if (!isset($_SESSION['type']) || $_SESSION["type"] != 2) {
 include('articles-repo.php');
 ?>
 
-<div style=" margin-top: 50px; margin-right: 100px;">
+<div style="max-width:1000px; margin-top: 50px; margin-right: 100px;">
     <h3>Pending Approval Articles</h3>
     <table class="table">
         <thead>
