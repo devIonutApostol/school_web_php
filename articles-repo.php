@@ -10,6 +10,8 @@ class Article
     public $content;
     public $created;
     public $status;
+    public $authorname;
+    public $editorname;
 }
 
 class ArticlesRepo
@@ -21,7 +23,7 @@ class ArticlesRepo
     function __construct()
     {
         $this->database = new Database;
-        $this->base_columns = "a.id as id, a.title as title, a.category as category, a.created as created, a.content as content, a.editorid as editorid from articles a";
+        $this->base_columns = "u1.username as authorname, u2.username as editorname, a.id as id, a.title as title, a.category as category, a.created as created, a.content as content, a.editorid as editorid from articles a join users u1 on a.authorid = u1.id left join users u2 on a.editorid = u2.id";
     }
 
 
@@ -127,9 +129,11 @@ function mapArticle($row)
     $result->created = date('d-m-Y', strtotime($row['created']));
     $result->content = $row['content'];
     $result->status = 'Pending Approval';
+    $result->authorname = $row['authorname'];
+    $result->editorname = $row['editorname'];
 
     if (isset($row['editorid'])) {
-        $result->status = 'approved';
+        $result->status = 'Approved by';
     }
 
 

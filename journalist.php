@@ -31,7 +31,7 @@ include('articles-repo.php');
                 echo '<td>' . $row->title . "</td>";
                 echo '<td>' . $row->category . "</td>";
                 echo '<td>' . $row->created . "</td>";
-                echo '<td>' . $row->status . "</td>";
+                echo '<td>' . $row->status ." ". $row->editorname ."</td>";
                 echo '</tr>';
             }
             ?>
